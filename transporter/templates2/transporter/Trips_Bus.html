@@ -1,0 +1,205 @@
+{% extends '_base.html' %} {% load static %} {% block content %}
+
+<link rel="stylesheet" href="{% static 'assets/css/sweetalert.css' %}" />
+
+
+
+<section class="content">
+    <div class="block-header">
+        <div class="row">
+            <div class="col-lg-7 col-md-6 col-sm-12">
+                <h2>
+                    Trips_Bus
+                   
+                </h2>
+            </div>
+            
+        </div>
+    </div>
+    <div class="container-fluid">
+        <!-- Hover Rows -->
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            <strong>Trips_Bus</strong> 
+                          
+                        </h2>
+                        <ul class="header-dropdown">
+                            <li class="dropdown">
+                                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown"
+                                    role="button" aria-haspopup="true" aria-expanded="false">
+                                    <i class="zmdi zmdi-more"></i>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="javascript:void(0);">Action</a></li>
+                                    <li><a href="javascript:void(0);">Another action</a></li>
+                                    <li><a href="javascript:void(0);">Something else</a></li>
+                                </ul>
+                            </li>
+                            <li class="remove">
+                                <a role="button" class="boxs-close"><i class="zmdi zmdi-close"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="body table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>id</th>
+                                    <th>Seat_Number </th>
+                                    <th>Student_Name</th>
+                                    <th>Take_Time</th>
+                                    
+                                    <th>Leave_Time</th>
+                                    <th>Student Bus Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for x in Boked %}
+                               
+                               <tr>
+                                <th scope="row" >{{x.id}}</th>
+                                <td>{{x.Seat_Number}}</td>
+                                
+                                <td>{{x.Student_Name}}</td>
+                                <td>{{x.Student_Take_Time}}</td>
+                                <td>{{x.Student_Leave_Time}}</td>
+                                <td>
+                                    {% if x.Student_Bus_Status == 'Take_the_bus' %}
+                                        <strong class=" text-success">{{x.Student_Bus_Status}}</strong>
+                                        {% elif x.Student_Bus_Status == 'Leave_the_bus' %}
+                                        <p class=" text-warning">{{x.Student_Bus_Status}}</p>
+                                        {% elif x.Student_Bus_Status == 'Not_Attend' %}
+                                        <p class=" text-danger">{{x.Student_Bus_Status}}</p>
+                                        {% else %}
+                                        <p class=" badge-default">Non</p>
+                                        {% endif %}
+                                    
+                                </td>
+                                
+                                <td>
+                                   
+                                    <button type="button" class="btn btn-icon btn-neutral btn-icon-mini" onClick="Set_Take_Time_sweetalert({{x.id}})" >
+                                        <i class="zmdi zmdi-hc-2x zmdi-alarm-check"><span></span></i>
+                                    </button>
+                                  
+                                    <button type="button" class="btn btn-icon btn-neutral btn-icon-mini" onClick="Set_Leave_Time_sweetalert({{x.id}})" >
+                                        <i class="zmdi zmdi-hc-2x zmdi-timer-off"><span></span></i>
+                                    </button>
+                                  
+                                    <button type="button" class="btn btn-icon btn-neutral btn-icon-mini" onClick="Set_Not_Attend_sweetalert({{x.id}})" >
+                                        <i class="zmdi zmdi-hc-2x zmdi-layers-off"><span></span></i>
+                                    </button>
+                                  
+                                  
+                                </td>
+                            </tr>
+                                
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+           
+              
+            </div>
+        </div>
+        <!-- #END# Hover Rows -->
+    </div>
+</section>
+<script>
+   
+
+   function Set_Not_Attend_sweetalert(id) {
+    swal({
+        title: "Are you sure Not Attend this Student?",
+        
+        type: "info",
+        showCancelButton: true,
+        closeOnConfirm: false,
+        showLoaderOnConfirm: true,
+    }, function () {
+        $.ajax({
+        url: '{% url "transporter:Set_Not_Attend" %}',
+        data: {
+            'id': id,
+        },
+        dataType: 'json',
+        success: function (data) {
+            setTimeout(function () {
+            swal("Student Done!" , "success");
+            window.location.reload();
+        }, 2000);
+        }
+    });
+       
+    });
+}
+
+
+
+
+
+
+function Set_Take_Time_sweetalert(id) {
+    swal({
+        title: "Are you sure you want to Take this Student?",
+        
+        type: "info",
+        showCancelButton: true,
+        closeOnConfirm: false,
+        showLoaderOnConfirm: true,
+    }, function () {
+        $.ajax({
+        url: '{% url "transporter:Set_Take_Time" %}',
+        data: {
+            'id': id,
+        },
+        dataType: 'json',
+        success: function (data) {
+            setTimeout(function () {
+            swal("Student Taked!");
+            window.location.reload();
+        }, 2000);
+        }
+    });
+       
+    });
+}
+
+function Set_Leave_Time_sweetalert(id) {
+    swal({
+        title: "Are you sure you want to Leave this Student?",
+        
+        type: "info",
+        showCancelButton: true,
+        closeOnConfirm: false,
+        showLoaderOnConfirm: true,
+    }, function () {
+        $.ajax({
+        url: '{% url "transporter:Set_Leave_Time" %}',
+        data: {
+            'id': id,
+        },
+        dataType: 'json',
+        success: function (data) {
+            setTimeout(function () {
+            swal("Student Leaved!");
+            window.location.reload();
+        }, 2000);
+        }
+    });
+       
+    });
+}
+
+
+</script>
+<script src="{% static 'assets/js/sweetalert.min.js' %}"></script> <!-- SweetAlert Plugin Js --> 
+
+
+{% endblock %}

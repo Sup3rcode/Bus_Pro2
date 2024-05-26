@@ -1,0 +1,192 @@
+{% extends '_base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="content ">
+
+    {% include 'home/include/block_header.html' %}
+    {% include 'home/include/card_count.html' %}
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
+    <script>
+
+        $(document).ready(function () {
+            $.ajax({
+                url: "{% url 'home:mydata2'%}",
+                method: 'GET',
+                success: function (data) {
+                    console.log(data);
+                    initMap(data);
+                }
+            });
+        });
+
+        function initMap(data) {
+            const map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 12.5,
+                center: { lat: 24.522383148639438, lng: 44.4186252342999 },
+                mapTypeId: google.maps.MapTypeId.HYBRID
+            });
+
+
+            const image =
+                "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png";
+            const icon = {
+                url: "https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-64.png", // url
+                scaledSize: new google.maps.Size(50, 50), // scaled size
+                origin: new google.maps.Point(0, 0), // origin
+                anchor: new google.maps.Point(0, 0) // anchor
+            };
+
+            const markers = data?.map((i) => {
+
+                const contentString =
+                    '<div id="content">' +
+                    '<div id="siteNotice">' +
+                    '<h4 id="firstHeading" class="firstHeading">' + i.name + '</h4>' +
+                    '<p id="firstHeading" class="firstHeading"><strong>Age  :</strong>' + i.age + '</p>' +
+                    '<p id="firstHeading" class="firstHeading"> <strong>Gender  :</strong>' + i.gender + '</p>' +
+
+                    "</div>" +
+                    "</div>";
+
+
+
+
+
+
+                const marker = new google.maps.Marker({
+                    position: { lat: parseFloat(i.latitude), lng: parseFloat(i.longitude) },
+                    map: map,
+                    icon: icon,
+                })
+
+
+                const infowindow = new google.maps.InfoWindow({
+                    content: contentString,
+                    ariaLabel: "Uluru",
+                });
+
+
+
+                marker.addListener("click", () => {
+
+                    infowindow.open({
+                        anchor: marker,
+                        map,
+
+                    });
+                });
+
+
+
+                var place = document.getElementById(i.id);
+                place.addEventListener("click", () => {
+
+                    map.setZoom(16);
+
+                    infowindow.open({
+                        anchor: marker,
+                        map,
+                    });
+                })
+
+
+
+            });
+
+        }
+        function scrollToElement(id) {
+            var elmnt = document.getElementById("content");
+            elmnt.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    </script>
+
+
+
+    <div class="row clearfix">
+        <!-- start student list -->
+        <div class="col-sm-12 col-md-12 col-lg-4">
+            <div class="card current_progress">
+                <div class="header">
+                    <h2><strong>student</strong> list</small></h2>
+                </div>
+
+                <div class="body">
+                    <div class="chat-widget" style="height: 500px; overflow: hidden; width: auto;">
+                       
+                        <ul class="chat-scroll-list clearfix">
+                            <div class="body">
+                                <ul class="list-unstyled activity">
+                                    {% for x in stu %}
+                                    <li id="{{ x.id }}" onclick="scrollToElement({{x.id}})">
+                                        <a href="javascript:void(0)">
+                                            <i class=""><img
+                                                    src="{% if x.gender == 'girl' %} {% static 'assets/images/avatar_girl.jpeg' %}{% else %} {% static 'assets/images/avatar_boy.jpeg' %} {% endif %}"
+                                                    class="rounded" style="width: 200px;" alt=""></i>
+                                            <div class="info">
+                                                <h4>{{x.name}} </h4>
+                                                <small>{{x.address |default:"--"}}</small>
+
+                                            </div>
+                                        </a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </ul>
+                    </div>
+                 
+                </div>
+            </div>
+        </div>
+        <!-- end student list -->
+        <!-- start map -->
+        <div class="col-sm-12 col-md-12 col-lg-8">
+            <div class="card">
+                <div class="header">
+                    <h2><strong>Map</strong> Api</h2>
+                    <ul class="header-dropdown">
+                        <li class="dropdown"> <a href="#gomap" class="dropdown-toggle" data-toggle="dropdown"
+                                role="button" aria-haspopup="true" aria-expanded="false"> <i class="zmdi zmdi-more"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="javascript:void(0);">Action</a></li>
+                                <li><a href="javascript:void(0);">Another action</a></li>
+                                <li><a href="javascript:void(0);">Something else</a></li>
+                            </ul>
+                        </li>
+                        <li class="remove">
+                            <a role="button" class="boxs-close"><i class="zmdi zmdi-close"></i></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="body">
+                    <div class="body">
+                        <div class="linkholder">
+                            <div class="mapholder" id="gomap">
+                                <div id="map"></div>
+                                <script
+                                    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCClagirEbcFsHwY7YipA6CeqEPyT7ciRo&callback=initMap&v=weekly"
+                                    defer></script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end map -->
+    </div>
+
+
+</section>
+
+
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCClagirEbcFsHwY7YipA6CeqEPyT7ciRo&callback=initMap&v=weekly"
+    defer></script>
+
+
+{% endblock content %}

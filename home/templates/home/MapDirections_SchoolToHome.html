@@ -1,0 +1,190 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block content %}
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
+
+<script type="text/javascript">
+   
+    function initMap() {
+        const directionsService = new google.maps.DirectionsService();
+        const directionsRenderer = new google.maps.DirectionsRenderer();
+        const map = new google.maps.Map(document.getElementById("mapContainer"), {
+            zoom: 13.5,
+            center: { lat: 24.522383148639438, lng: 44.4186252342999 },
+            mapTypeId: google.maps.MapTypeId.HYBRID ,
+            disableDefaultUI: true, 
+        });
+
+        directionsRenderer.setMap(map);
+        directionsRenderer.setPanel(document.getElementById("sidebar"));
+
+  const control = document.getElementById("floating-panel");
+
+  map.controls[google.maps.ControlPosition.TOP_CENTER].push(control);
+
+        {% for x in stu %}
+        document.getElementById({{x.id}}).addEventListener("click", () => {
+            addr =' {{x.address}}'
+      calculateAndDisplayRoute(directionsService, directionsRenderer , addr );
+    });
+    {% endfor %}
+ 
+        
+
+
+    }
+
+
+    function calculateAndDisplayRoute(directionsService, directionsRenderer , addr) {
+        directionsService
+            .route({
+                origin: {
+                    query: document.getElementById("start").value,
+                },
+                destination: {
+                    query: addr,
+                },
+                travelMode: google.maps.TravelMode.DRIVING,
+                
+            })
+            .then((response) => {
+                directionsRenderer.setDirections(response);
+            })
+            .catch((e) => window.alert("Directions request failed due to " + status));
+    }
+
+    window.initMap = initMap;
+
+</script>
+
+<section class="content ">
+    <div class="block-header mt-6">
+        <div class="row">
+            <div class="col-lg-7 col-md-6 col-sm-12">
+                <h2>App Widgets
+                    <small>Welcome to Oreo</small>
+                </h2>
+            </div>
+            <div class="col-lg-5 col-md-6 col-sm-12">
+                <button class="btn btn-white btn-icon btn-round hidden-sm-down float-right m-l-10" type="button">
+                    <i class="zmdi zmdi-plus"></i>
+                </button>
+                <ul class="breadcrumb float-md-right">
+                    <li class="breadcrumb-item"><a href="index.html"><i class="zmdi zmdi-home"></i> Oreo</a></li>
+                    <li class="breadcrumb-item active">Widgets</li>
+                    <li class="breadcrumb-item active">App</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row clearfix">
+        <!-- start student list -->
+        <div class="col-sm-12 col-md-12 col-lg-2">
+            <div class="card current_progress">
+                <div class="header">
+                    <h2><strong>student</strong> list</small></h2>
+                </div>
+
+                <div class="body">
+                    <div class="chat-widget">
+                        <ul class="chat-scroll-list clearfix">
+                            <li class="inbox-inner"> <a href="javascript:void(0)">
+                                    <div class="inbox-item">
+
+                                    </div>
+                                </a>
+                            </li>
+
+
+
+
+                        </ul>
+                        <ul class="chat-scroll-list clearfix">
+                            <div class="body">
+                                <ul class="list-unstyled activity">
+                                    {% for x in stu %}
+                                    <li id="{{ x.id }}">
+                                        <a href="javascript:void(0)">
+                                            <i class=""><img
+                                                    src="{% if x.gender == 'girl' %} {% static 'assets/images/avatar_girl.jpeg' %}{% else %} {% static 'assets/images/avatar_boy.jpeg' %} {% endif %}"
+                                                    class="rounded" style="width: 200px;" alt=""></i>
+                                            <div class="info">
+                                                <h6>{{x.name}} </h6>
+                                                <small>{{x.gender |default:"--"}}</small>
+
+                                            </div>
+                                        </a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </ul>
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+        <!-- end student list -->
+        <!-- start map -->
+        <div class="col-sm-12 col-md-12 col-lg-10">
+            <div class="card">
+                <div class="header">
+                    <h2><strong>Map</strong> Bus Trip</h2>
+                  
+                </div>
+                <div class="body">
+                   
+                    <div class="row clearfix"> 
+                        <div class="col-sm-12 col-md-12 col-lg-10">
+                            <div id="mapContainer"></div>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-2">
+                           
+                                <div class="chat-widget">
+                                    <ul class="chat-scroll-list clearfix">
+                                        <div class="body " style="padding: 0%;">
+                                            <ul class="list-unstyled activity">
+                                                <div id="sidebar">
+                                            </ul>
+                                        </div>
+                                    </ul>
+                                </div>
+                            
+                        </div>
+
+                    </div>
+                      
+                       
+                            
+
+                  
+                </div>
+            </div>
+        </div>
+        <!-- end map -->
+    </div>
+    <select id="start" style="visibility: hidden;">
+        <option value="HF7F+PC7 جامعة شقراء, Al Rabwah, Al Duwadimi 17472" style="visibility: hidden;"></option>
+
+    </select>
+
+    
+   
+</section>
+
+<!-- 
+      The `defer` attribute causes the callback to execute after the full HTML
+      document has been parsed. For non-blocking uses, avoiding race conditions,
+      and consistent behavior across browsers, consider loading using Promises.
+      See https://developers.google.com/maps/documentation/javascript/load-maps-js-api
+      for more information.
+      -->
+
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCClagirEbcFsHwY7YipA6CeqEPyT7ciRo&callback=initMap&v=weekly&language=ar&region=SA"
+    defer></script>
+
+{% endblock content %}

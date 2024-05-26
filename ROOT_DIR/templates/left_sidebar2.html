@@ -1,0 +1,134 @@
+<aside id="leftsidebar" class="sidebar">
+    <ul class="nav nav-tabs">
+        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#dashboard"><i
+                    class="zmdi zmdi-home m-r-5"></i>Home</a></li>
+        <li class="nav-item"><a class="nav-link " data-toggle="tab" href="#user"><i
+                    class="zmdi zmdi-account m-r-5"></i>User</a></li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane stretchRight " id="dashboard">
+            <div class="menu">
+                <div class="slimScrollDiv"
+                    style="position: relative; overflow: hidden; width: auto; height: calc(-60px + 100vh);">
+                    <ul class="list" style="overflow: hidden; width: auto; height: calc(-60px + 100vh);">
+                        <li>
+                            <div class="user-info">
+                                <div class="image"><a href="profile.html" class=" waves-effect waves-block"><img
+                                            src="{{ user.profile.avatar.url }}" alt="User"></a></div>
+                                <div class="detail">
+                                    <h4>{{user}}</h4>
+                                    <small>{{user.profile.role}}</small>
+                                </div>
+
+
+
+                            </div>
+                        </li>
+                        {%if user.is_authenticated%}
+                        {% if user.is_superuser %}
+    
+                        <li class="active open"> <a href="{% url 'home:index' %}"><i
+                                    class="zmdi zmdi-hc-2x zmdi-home"></i><span>Dashboard</span></a>
+                        </li>
+    
+    
+                      
+                        <li class="active open"> <a href="{% url 'transporter:video' %}"><i
+                                    class="zmdi zmdi-hc-2x zmdi-pin"></i><span>Bus Video Stream </span></a>
+                        </li>
+                        <li> <a href="/admin"><i class="zmdi zmdi-shield-security"></i><span>Admin </span></a>
+                        </li>
+                        {% endif %}
+                     
+                        {% if user.profile.role == 'Staff' %}
+                        <li> <a href="javascript:void(0);" class="menu-toggle waves-effect waves-block"><i
+                                    class="zmdi zmdi-hc-5x zmdi-account-box"></i><span>Staff</span> </a>
+                            <ul class="ml-menu" style="display: none;">
+                                <li><a href="{% url 'transporter:Schedule_School_To_Home' %}"
+                                        class=" waves-effect waves-block"> Schedule School To Home </a></li>
+                                <li><a href="{% url 'transporter:Schedule_Home_To_School' %}"
+                                        class=" waves-effect waves-block">Schedule Home To_School </a></li>
+                                <li><a href="" class=" waves-effect waves-block">Massges </a></li>
+                            </ul>
+                        </li>
+                        {% endif %}
+    
+                        {% if user.profile.role == 'Driver' %}
+                        <li> <a href="javascript:void(0);" class="menu-toggle waves-effect waves-block"><i
+                                    class="zmdi zmdi-hc-5x zmdi-bus"></i><span>Driver</span> </a>
+                            <ul class="ml-menu" style="display: none;">
+                                <li><a href="{% url 'transporter:Driver_Directions_HomeToSchool' %}"
+                                        class=" waves-effect waves-block">Home To School </a></li>
+                                <li><a href="{% url 'transporter:Driver_Directions_SchoolToHome' %}"
+                                        class=" waves-effect waves-block">School To Home </a></li>
+                                <li><a href="" class=" waves-effect waves-block">Messges </a></li>
+                             
+                            </ul>
+                        </li>
+                        {% endif %}
+                    
+    
+                    
+    
+                        {% endif %}
+                    </ul>
+                    <div class="slimScrollBar"
+                        style="background: rgba(0, 0, 0, 0.2); width: 2px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 3px; z-index: 99; left: 1px; height: 233.469px;">
+                    </div>
+                    <div class="slimScrollRail"
+                        style="width: 2px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 0px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; left: 1px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane stretchLeft active" id="user">
+            <div class="menu">
+                <div class="slimScrollDiv"
+                    style="position: relative; overflow: hidden; width: auto; height: calc(-60px + 100vh);">
+                    <ul class="list" style="overflow: hidden; width: auto; height: calc(-60px + 100vh);">
+                        <li>
+                            <div class="user-info m-b-20 p-b-15">
+                                <div class="image"><a href="profile.html" class=" waves-effect waves-block"><img
+                                            src="{{ user.profile.avatar.url }}" alt="User"></a></div>
+                                <div class="detail">
+                                    <h4>{{user}}</h4>
+                                    <small>{{user.profile.role}}</small>
+                                </div>
+
+
+                            </div>
+                        </li>
+                        <li>
+
+                            <ul class="list-unstyled">
+
+                                <li class="active "> <a href="{% url 'users:user_profile' %}"><i
+                                    class="zmdi zmdi-hc-2x zmdi-account-box-o"></i><span>Update Profile </span></a>
+                                </li>
+
+                                <li class="active "> <a href="{% url 'users:password_change' %}"><i
+                                    class="zmdi zmdi-hc-2x zmdi-key"></i><span>Change Password </span></a>
+                                </li>
+                                <li><a href="javascript:$('#frm_logout').submit();" class=" waves-effect waves-block">logout </a></li>
+                                {% if user.profile.role == 'Driver' %}
+                                <li class="active "> <a href="{% url 'users:Driver_Profile' %}"><i
+                                    class="zmdi zmdi-hc-3x zmdi-card"></i><span>driver license details  </span></a>
+                                </li>
+                                {% endif %}
+
+
+
+                            </ul>
+                        </li>
+                    </ul>
+                    <div class="slimScrollBar"
+                        style="background: rgba(0, 0, 0, 0.2); width: 2px; position: absolute; top: 186px; opacity: 0.4; display: none; border-radius: 3px; z-index: 99; left: 1px; height: 141.628px;">
+                    </div>
+                    <div class="slimScrollRail"
+                        style="width: 2px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 0px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; left: 1px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</aside>

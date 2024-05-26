@@ -1,0 +1,133 @@
+{% extends '_base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="content profile-page">
+    <div class="block-header">
+        <div class="row">
+            <div class="col-lg-7 col-md-6 col-sm-12">
+                <h2>Profile
+                    <small>Welcome to Oreo</small>
+                </h2>
+            </div>
+            <div class="col-lg-5 col-md-6 col-sm-12">
+                <button class="btn btn-white btn-icon btn-round hidden-sm-down float-right m-l-10" type="button">
+                    <i class="zmdi zmdi-plus"></i>
+                </button>
+                <ul class="breadcrumb float-md-right">
+                    <li class="breadcrumb-item"><a href="index.html"><i class="zmdi zmdi-home"></i> Oreo</a></li>
+                    <li class="breadcrumb-item active">Profile</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-xl-6 col-lg-7 col-md-12">
+                <div class="card profile-header">
+                    <div class="body">
+                        {% if user_form.errors %}
+                        <div class="alert alert-danger alert-dismissible" role="alert">
+                            <div id="form_errors">
+                                {% for key, value in user_form.errors.items %}
+                                <strong>{{ value }}</strong>
+                                {% endfor %}
+                            </div>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        {% endif %}
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="form-row">
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label class="small mb-1">Username:</label>
+                                            {{ user_form.username }}
+                                        <label class="small mb-1">Email:</label>
+                                            {{ user_form.email }}
+                                    </div>
+                                    <div class="form-group">
+                                        <a href="{% url 'users:password_change' %}">Change Password</a>
+                                        <hr>
+                                        <label class="small mb-1">Change Avatar:</label>
+                                        {{ profile_form.avatar }}
+                                    </div>
+                                    <label class="small mb-1">Bio:</label> {{ profile_form.bio }}
+                                </div>
+                            </div>
+                            <br><br>
+                            <button type="submit" class="btn btn-dark btn-lg">Save Changes</button>
+                            <button type="reset" class="btn btn-dark btn-lg">Reset</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2><strong>Vertical</strong> Layout</h2>
+                            <ul class="header-dropdown">
+                                <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle"
+                                        data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                        <i class="zmdi zmdi-more"></i> </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="javascript:void(0);">Action</a></li>
+                                        <li><a href="javascript:void(0);">Another action</a></li>
+                                        <li><a href="javascript:void(0);">Something else</a></li>
+                                    </ul>
+                                </li>
+                                <li class="remove">
+                                    <a role="button" class="boxs-close"><i class="zmdi zmdi-close"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="body">
+                            {% if user_form.errors %}
+                            <div class="alert alert-danger alert-dismissible" role="alert">
+                                <div id="form_errors">
+                                    {% for key, value in user_form.errors.items %}
+                                    <strong>{{ value }}</strong>
+                                    {% endfor %}
+                                </div>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            {% endif %}
+    
+                            <form method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+    
+                                <div class="row clearfix">
+                                    {% for field in profile_form %}
+                                    <div class="col-md-6">
+    
+    
+                                        <div class="input-group ">
+                                            <b> {{ field.name }} :</b><br>
+                                            {{ field }}
+                                            {% if field.errors %}
+                                        <label class="error" style="color: red;" >{{ field.errors.as_text }}</label>
+                                        {% endif %}
+                                        </div>
+                                        
+                                    </div>
+                                    {% endfor %}
+                                </div>
+    
+    
+                                <button class="btn btn-info btn-round">Save Changes</button>
+                            </form>
+    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+{% endblock content %}

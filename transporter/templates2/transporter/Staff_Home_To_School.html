@@ -1,0 +1,104 @@
+{% extends '_base.html' %} {% load static %} {% block content %}
+<section class="content">
+    <div class="block-header">
+        <div class="row">
+            <div class="col-lg-7 col-md-6 col-sm-12">
+                <h2>
+                    Trips Schedule List 
+                 
+                </h2>
+            </div>
+            <div class="col-lg-5 col-md-6 col-sm-12">
+
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <!-- Hover Rows -->
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            <strong>Trips</strong> Schedule
+                           
+                        </h2>
+                        <ul class="header-dropdown">
+                            <li class="dropdown">
+                                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown"
+                                    role="button" aria-haspopup="true" aria-expanded="false">
+                                    <i class="zmdi zmdi-more"></i>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="javascript:void(0);">Action</a></li>
+                                    <li><a href="javascript:void(0);">Another action</a></li>
+                                    <li><a href="javascript:void(0);">Something else</a></li>
+                                </ul>
+                            </li>
+                            <li class="remove">
+                                <a role="button" class="boxs-close"><i class="zmdi zmdi-close"></i></a>
+                            </li>
+                        </ul>
+                        
+                    </div>
+                    <div class="body table-responsive">
+                        {{request.user.Staff_Bus.bus_no}}
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>id</th>
+                                    <th>Trips Type</th>
+                                    <th>Trip Day</th>
+                                    <th>Trip Date</th>
+                                    <th>bus no</th>
+                                    <th>Status</th>
+                                    <th >Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for x in page_obj.object_list %}
+                                <tr>
+                                    <th > <a >{{x.id}}</a></th>
+                                    <td>{{x.Trips_Type}}</td>
+                                    <td>{{x.Trip_Date |date:"l"}}</td>
+                                    <td>{{x.Trip_Date |date:"Y-m-d"}}</td>
+                                    <td>{{x.bus_no}}</td>
+                                    <td>
+                                        {% if x.Trips_Status == 'Not Yet' %}
+                                        <span class="badge badge-info">{{x.Trips_Status}}</span>
+                                        {% elif x.Trips_Status == 'PENDING' %}
+                                        <span class="badge badge-warning">{{x.Trips_Status}}</span>
+                                        {% elif x.Trips_Status == 'DELIVERED' %}
+                                        <span class="badge badge-success">{{x.Trips_Status}}</span>
+
+                                        {% endif %}
+                                        
+                                    </td>
+                                    <td>
+                                      
+                                        <a href="{%url 'transporter:Trips_Boked' x.id %}" class="" >
+
+                                            <i class="zmdi zmdi-hc-2x zmdi-eye"><span></span></i>
+                                        
+                                            
+                                            </a>
+                                      
+                                      
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+                {% include 'pagination.html' %}
+              
+            </div>
+        </div>
+        <!-- #END# Hover Rows -->
+    </div>
+</section>
+
+{% endblock %}

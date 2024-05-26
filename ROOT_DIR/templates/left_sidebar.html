@@ -1,0 +1,74 @@
+{% load static %}
+<!-- Left Sidebar -->
+<aside id="leftsidebar" class="sidebar">
+
+    <div class="tab-content">
+        <div class="tab-pane stretchRight active" id="dashboard">
+            <div class="menu">
+             
+                <ul class="list">
+                    <li>
+                        <div class="user-info m-b-20 p-b-15">
+                            <div class="image"><a href="{% url 'home:index' %}" class=" waves-effect waves-block"><img
+                                        src="{% static 'assets/images/logo2.jpg' %}" class="rounded"></a></div>
+                            <div class="detail">
+                                <h4>Bus Pro</h4>
+
+                            </div>
+
+
+                        </div>
+                    </li>
+                    {%if user.is_authenticated%}
+                    {% if user.is_superuser %}
+
+                    <li class="active open"> <a href="{% url 'home:index' %}"><i
+                                class="zmdi zmdi-hc-2x zmdi-home"></i><span>Dashboard</span></a>
+                    </li>
+
+
+                  
+                    <li class="active open"> <a href="{% url 'transporter:video' %}"><i
+                                class="zmdi zmdi-hc-2x zmdi-pin"></i><span>Bus Video Stream </span></a>
+                    </li>
+                    <li> <a href="/admin"><i class="zmdi zmdi-shield-security"></i><span>Admin </span></a>
+                    </li>
+                    {% endif %}
+                 
+                    {% if user.role == 'Staff' %}
+                    <li> <a href="javascript:void(0);" class="menu-toggle waves-effect waves-block"><i
+                                class="zmdi zmdi-hc-5x zmdi-account-box"></i><span>Staff</span> </a>
+                        <ul class="ml-menu" style="display: none;">
+                            <li><a href="{% url 'transporter:Schedule_School_To_Home' %}"
+                                    class=" waves-effect waves-block"> Schedule School To Home </a></li>
+                            <li><a href="{% url 'transporter:Schedule_Home_To_School' %}"
+                                    class=" waves-effect waves-block">Schedule Home To_School </a></li>
+                            <li><a href="" class=" waves-effect waves-block">Massges </a></li>
+                        </ul>
+                    </li>
+                    {% endif %}
+
+                    {% if user.role == 'Driver' %}
+                    <li> <a href="javascript:void(0);" class="menu-toggle waves-effect waves-block"><i
+                                class="zmdi zmdi-hc-5x zmdi-bus"></i><span>Driver</span> </a>
+                        <ul class="ml-menu" style="display: none;">
+                            <li><a href="{% url 'transporter:Driver_Directions_HomeToSchool' %}"
+                                    class=" waves-effect waves-block">Home To School </a></li>
+                            <li><a href="{% url 'transporter:Driver_Directions_SchoolToHome' %}"
+                                    class=" waves-effect waves-block">School To Home </a></li>
+                            <li><a href="" class=" waves-effect waves-block">Messges </a></li>
+                            <li><a href="{% url 'users:driver-profile' %}" class=" waves-effect waves-block">Profile </a></li>
+                        </ul>
+                    </li>
+                    {% endif %}
+                
+
+                
+
+                    {% endif %}
+                </ul>
+             
+            </div>
+        </div>
+    </div>
+</aside>

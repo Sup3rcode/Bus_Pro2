@@ -1,0 +1,136 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta name="description" content="Student transportation bus monitoring system . ">
+    <title>:: BUS :: PRO</title>
+    <link rel="icon" href="{% static 'assets/images/favicon.ico' %}" type="image/x-icon">
+    <!-- Favicon-->
+    <link rel="stylesheet" type="text/css" href="{% static 'google/main.css'%}">
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/color_skins.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/map.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="//kit.fontawesome.com/b68b3cc9f2.js?ver=5.2.4"></script>
+    <script src="https://kit.fontawesome.com/f44bd2967c.js" crossorigin="anonymous"></script>
+
+    {% block css %}
+
+
+    {% endblock css %}
+
+</head>
+
+<body class="theme-orange">
+
+    <!-- Top Bar -->
+    <div class="page-loader-wrapper">
+        <div class="loader">
+            <div class="m-t-30"><img class="zmdi-hc-spin" src="{% static 'assets/images/logo2.jpg' %}" width="48"
+                    height="48" alt="Oreo"></div>
+            <p>Please wait...</p>
+        </div>
+    </div>
+
+    <nav class="navbar p-l-5 p-r-5">
+        <ul class="nav navbar-nav navbar-left">
+            <li><a href="javascript:void(0);" class="ls-toggle-btn" data-close="true"><i class="zmdi zmdi-swap"></i></a>
+            </li>
+            <li>
+                <div class="navbar-header">
+                    <a href="javascript:void(0);" class="bars"></a>
+                    <a class="navbar-brand" href="index.html"><span class="m-l-10"> </span></a>
+                </div>
+            </li>
+
+
+              
+        </ul>
+    </nav>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    {% include 'left_sidebar2.html' %}
+    <!-- Main Content -->
+
+    {% block content %}
+
+
+    {% endblock %}
+
+
+    <!-- Right Sidebar -->
+    <aside id="rightsidebar" class="right-sidebar">
+
+        <div class="tab-content">
+            <div class="tab-pane slideRight active" id="setting">
+                <div class="slim_scroll">
+                    <div class="card">
+                        <h6>Skins</h6>
+                        <ul class="choose-skin list-unstyled">
+                            <li data-theme="purple" class="active">
+                                <div class="purple"></div>
+                            </li>
+                            <li data-theme="PINK">
+                                <div class="PINK"></div>
+                            </li>
+                            <li data-theme="cyan">
+                                <div class="cyan"></div>
+                            </li>
+                            <li data-theme="green">
+                                <div class="green"></div>
+                            </li>
+                            <li data-theme="orange">
+                                <div class="orange"></div>
+                            </li>
+                            <li data-theme="blush">
+                                <div class="blush"></div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card theme-light-dark">
+                        <h6>Left Menu</h6>
+                        <button class="t-light btn btn-default btn-simple btn-round btn-block">Light</button>
+                        <button class="t-dark btn btn-default btn-round btn-block">Dark</button>
+                        <button class="m_img_btn btn btn-primary btn-round btn-block">Sidebar Image</button>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </aside>
+
+    <form id="frm_logout" method="post" action="{% url 'users:logout' %}" style="visibility: hidden;"> {% csrf_token %}
+    </form>
+
+    <!-- Jquery Core Js -->
+    <script src="{% static 'assets/js/libscripts.bundle.js' %}"></script>
+    <!-- Lib Scripts Plugin Js -->
+
+    <!-- Lib Scripts Plugin Js -->
+    <script src="{% static 'assets/js/vendorscripts.bundle.js' %}"></script>
+
+    <!-- USA Map Js -->
+
+
+    <script src="{% static 'assets/js/mainscripts.bundle.js' %}"></script>
+
+    {% block js %}
+
+
+    {% endblock js %}
+
+</body>
+
+</html>

@@ -1,0 +1,115 @@
+{% extends '_base.html' %} {% load static %} {% block content %}
+
+<link rel="stylesheet" href="{% static 'assets/css/chatapp.css' %}" />
+
+<section class="content">
+    <div class="block-header">
+        <div class="row">
+            <div class="col-lg-7 col-md-6 col-sm-12">
+                <h2>Inbox messages</h2>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12 col-xl-12">
+                <div class="card chat-app">
+                    <div id="plist" class="people-list">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search..." />
+                            <span class="input-group-addon">
+                                <i class="zmdi zmdi-search"></i>
+                            </span>
+                        </div>
+                        <div class="card">
+                            <div class="body">
+                                <p>A success message!</p>
+                                <button class="btn btn-raised btn-primary waves-effect btn-round" data-type="success">CLICK ME</button>
+                            </div>
+                        </div>
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane slideRight active" id="people">
+                                <ul class="chat-list list-unstyled m-b-0">
+                                    {% for m in my_msg %}
+
+                                    <li class="clearfix">
+                                        <a href="{%url 'transporter:inbox' m.id %}">
+                                           
+                                            <img src=""  />
+                                          
+                                            <div class="about">
+                                                <div class="name" style="color: black">
+                                                    {{m.From_User}}
+                                                </div>
+                                                <div class="status">
+                                                    <i class="zmdi zmdi-circle offline"></i>
+                                                </div>
+                                            </div>
+                                           
+                                        </a>
+                                    </li>
+
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat">
+                        <div class="chat-header clearfix">
+                            <img src="{{request.user.avatar.url}}" alt />
+                            <div class="chat-about">
+                                <div class="chat-with">{{request.user}} </div>
+                                <div class="chat-num-messages">already 8
+                                    messages</div>
+                            </div>
+                            <a href="javascript:void(0);" class="list_btn btn btn-primary btn-round float-md-right"><i
+                                    class="zmdi zmdi-comments"></i></a>
+                        </div>
+                        <div class="chat-history">
+                            <ul>
+                                {% for message in commit_list %}
+                                {% if message.user != request.user %}
+                                <li class="clearfix">
+                                    <div class="message-data text-right">
+                                        <span class="message-data-time">
+                                            {{ message.user }} 
+                                            ({{  message.created_at|timesince }})
+                                        </span>
+                                        <span class="message-data-name"> 
+                                            {{   message.user }}</span>
+                                        <i class="zmdi zmdi-circle me"></i>
+                                    </div>
+                                    <div class="message other-message float-right">
+                                        {{ message.comment }}
+                                    </div>
+                                </li>
+                               
+                                {% endif %} {% endfor %}
+                            </ul>
+                        </div>
+
+
+
+
+                       
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+     
+<script>
+    window.addEventListener('load', async () => {
+  let video = document.querySelector('video[muted][autoplay]');
+  try {
+    await video.play();
+  } catch (err) {
+    video.controls = true;
+  }
+});
+</script>
+    </div>
+</section>
+
+{% endblock %}
